@@ -10,7 +10,7 @@ use std::collections::HashMap;
 /// Analytics test specification.
 #[derive(Debug, Clone, Deserialize)]
 pub struct AnalyticsTestSpec {
-    /// Test name (populated from HashMap key).
+    /// Test name (populated from `HashMap` key).
     #[serde(default)]
     pub name: String,
     /// Distribution type (for Monte Carlo).
