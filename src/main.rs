@@ -46,11 +46,7 @@ fn main() -> anyhow::Result<()> {
     let forge_binary = cli
         .binary
         .or_else(find_forge_binary)
-        .ok_or_else(|| {
-            anyhow::anyhow!(
-                "Forge binary not found. Set FORGE_BIN or use --binary"
-            )
-        })?;
+        .ok_or_else(|| anyhow::anyhow!("Forge binary not found. Set FORGE_BIN or use --binary"))?;
 
     if !forge_binary.exists() {
         anyhow::bail!("Forge binary not found: {}", forge_binary.display());
@@ -139,7 +135,10 @@ fn run_all_mode(
 
     let passed = results.iter().filter(|r| r.is_pass()).count();
     let failed = results.iter().filter(|r| r.is_fail()).count();
-    let skipped = results.iter().filter(|r| matches!(r, TestResult::Skip { .. })).count();
+    let skipped = results
+        .iter()
+        .filter(|r| matches!(r, TestResult::Skip { .. }))
+        .count();
 
     if failed == 0 {
         println!(
@@ -360,7 +359,8 @@ fn run_forge_simulate(
     seed: u64,
 ) -> Result<ForgeStats, String> {
     // Use a temp file for JSON output to avoid console output mixing
-    let output_file = NamedTempFile::new().map_err(|e| format!("Failed to create temp output file: {e}"))?;
+    let output_file =
+        NamedTempFile::new().map_err(|e| format!("Failed to create temp output file: {e}"))?;
     let output_path = output_file.path().with_extension("json");
 
     let output = Command::new(forge_binary)
@@ -380,8 +380,8 @@ fn run_forge_simulate(
     }
 
     // Read the JSON from the output file
-    let json_content = fs::read_to_string(&output_path)
-        .map_err(|e| format!("Failed to read output file: {e}"))?;
+    let json_content =
+        fs::read_to_string(&output_path).map_err(|e| format!("Failed to read output file: {e}"))?;
 
     // Clean up
     let _ = fs::remove_file(&output_path);
@@ -503,7 +503,8 @@ fn compare_forge_r_results(
     let abs_tolerance = r.std * 0.5; // Allow half a std dev absolute difference
 
     for pct in ["5", "50", "95"] {
-        if let (Some(&forge_val), Some(&r_val)) = (forge.percentiles.get(pct), r.percentiles.get(pct))
+        if let (Some(&forge_val), Some(&r_val)) =
+            (forge.percentiles.get(pct), r.percentiles.get(pct))
         {
             let abs_diff = (forge_val - r_val).abs();
             let rel_diff = if r_val.abs() > f64::EPSILON {

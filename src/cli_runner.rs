@@ -81,8 +81,13 @@ pub fn run_forge_command(cmd: &ForgeCommand, config: &RunnerConfig) -> Result<An
         command.current_dir(dir);
     }
 
-    let output = execute_with_timeout(&mut command, config.timeout)
-        .with_context(|| format!("Failed to execute: forge {} {}", cmd.cmd, cmd.fixture.display()))?;
+    let output = execute_with_timeout(&mut command, config.timeout).with_context(|| {
+        format!(
+            "Failed to execute: forge {} {}",
+            cmd.cmd,
+            cmd.fixture.display()
+        )
+    })?;
 
     parse_forge_output(&output)
 }
@@ -105,10 +110,20 @@ fn execute_with_timeout(command: &mut Command, timeout: Duration) -> Result<Outp
         match child.try_wait() {
             Ok(Some(status)) => {
                 let stdout = child.stdout.take().map_or_else(Vec::new, |s| {
-                    BufReader::new(s).lines().map_while(Result::ok).collect::<Vec<_>>().join("\n").into_bytes()
+                    BufReader::new(s)
+                        .lines()
+                        .map_while(Result::ok)
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                        .into_bytes()
                 });
                 let stderr = child.stderr.take().map_or_else(Vec::new, |s| {
-                    BufReader::new(s).lines().map_while(Result::ok).collect::<Vec<_>>().join("\n").into_bytes()
+                    BufReader::new(s)
+                        .lines()
+                        .map_while(Result::ok)
+                        .collect::<Vec<_>>()
+                        .join("\n")
+                        .into_bytes()
                 });
                 return Ok(Output {
                     status,
@@ -136,8 +151,12 @@ fn parse_forge_output(output: &Output) -> Result<AnalyticsOutput> {
     let raw_json: serde_json::Value = if stdout.trim().is_empty() {
         serde_json::Value::Null
     } else {
-        serde_json::from_str(&stdout)
-            .with_context(|| format!("Failed to parse JSON: {}", stdout.chars().take(200).collect::<String>()))?
+        serde_json::from_str(&stdout).with_context(|| {
+            format!(
+                "Failed to parse JSON: {}",
+                stdout.chars().take(200).collect::<String>()
+            )
+        })?
     };
 
     let stats = extract_stats(&raw_json);
@@ -152,12 +171,14 @@ fn parse_forge_output(output: &Output) -> Result<AnalyticsOutput> {
 
 fn extract_stats(json: &serde_json::Value) -> Option<Stats> {
     let mean = json.get("mean").and_then(serde_json::Value::as_f64);
-    let std = json.get("std")
+    let std = json
+        .get("std")
         .or_else(|| json.get("stddev"))
         .or_else(|| json.get("sd"))
         .and_then(serde_json::Value::as_f64);
 
-    let percentiles: HashMap<String, f64> = json.get("percentiles")
+    let percentiles: HashMap<String, f64> = json
+        .get("percentiles")
         .and_then(|p| p.as_object())
         .map(|obj| {
             obj.iter()
@@ -166,7 +187,8 @@ fn extract_stats(json: &serde_json::Value) -> Option<Stats> {
         })
         .unwrap_or_default();
 
-    let samples = json.get("samples")
+    let samples = json
+        .get("samples")
         .and_then(|s| s.as_array())
         .map(|arr| arr.iter().filter_map(serde_json::Value::as_f64).collect())
         .unwrap_or_default();

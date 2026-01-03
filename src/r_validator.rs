@@ -70,9 +70,7 @@ pub enum ValidationResult {
         reason: String,
     },
     /// Validation could not be performed.
-    Error {
-        reason: String,
-    },
+    Error { reason: String },
 }
 
 impl ValidationResult {
@@ -106,10 +104,7 @@ impl Default for RConfig {
 pub fn validate_with_r(validator: &str, params: &RParams, config: &RConfig) -> Result<RResult> {
     let script_path = config.validators_dir.join(validator);
     if !script_path.exists() {
-        return Err(anyhow!(
-            "R validator not found: {}",
-            script_path.display()
-        ));
+        return Err(anyhow!("R validator not found: {}", script_path.display()));
     }
 
     let params_json = serde_json::to_string(params)?;
@@ -133,7 +128,10 @@ pub fn compare_results(
 ) -> ValidationResult {
     if !r_result.success {
         return ValidationResult::Error {
-            reason: r_result.error.clone().unwrap_or_else(|| "Unknown R error".to_string()),
+            reason: r_result
+                .error
+                .clone()
+                .unwrap_or_else(|| "Unknown R error".to_string()),
         };
     }
 
@@ -157,7 +155,9 @@ pub fn compare_results(
                 r_stats,
                 reason: format!(
                     "Mean mismatch: forge={:.6}, R={:.6}, tolerance={:.2}%",
-                    forge_mean, r_mean, tolerance.mean * 100.0
+                    forge_mean,
+                    r_mean,
+                    tolerance.mean * 100.0
                 ),
             };
         }
@@ -171,7 +171,9 @@ pub fn compare_results(
                 r_stats,
                 reason: format!(
                     "Std mismatch: forge={:.6}, R={:.6}, tolerance={:.2}%",
-                    forge_std, r_std, tolerance.std * 100.0
+                    forge_std,
+                    r_std,
+                    tolerance.std * 100.0
                 ),
             };
         }

@@ -62,25 +62,13 @@ pub struct ToleranceSpec {
 #[serde(tag = "status", rename_all = "lowercase")]
 pub enum TestResult {
     /// Test passed.
-    Pass {
-        name: String,
-        details: String,
-    },
+    Pass { name: String, details: String },
     /// Test failed.
-    Fail {
-        name: String,
-        reason: String,
-    },
+    Fail { name: String, reason: String },
     /// Test errored.
-    Error {
-        name: String,
-        error: String,
-    },
+    Error { name: String, error: String },
     /// Test was skipped.
-    Skip {
-        name: String,
-        reason: String,
-    },
+    Skip { name: String, reason: String },
 }
 
 impl TestResult {

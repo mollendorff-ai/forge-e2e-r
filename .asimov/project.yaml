@@ -1,0 +1,122 @@
+# Project Context - forge-e2e-r
+# E2E validation of forge analytics against R
+#
+# Philosophy: Forge is NEVER the authority.
+# All tests validate forge against R (gold-standard statistical computing).
+# If forge disagrees with R, forge has a bug.
+
+identity:
+  name: "forge-e2e-r"
+  type: rust
+  version: "1.0.0"
+  tagline: "R-validated E2E testing for forge analytics"
+  parent: "forge-e2e"
+  repository: "https://github.com/royalbit/forge-e2e-r"
+
+quality:
+  test: "cargo test"
+  lint: "cargo clippy -- -D warnings"
+  format: "cargo fmt --check"
+  build: "cargo build --release"
+  validate: "FORGE_BIN=../forge/target/release/forge cargo run --release -- --all"
+
+files:
+  source:
+    - "src/main.rs - CLI test runner"
+    - "src/lib.rs - Library exports"
+    - "src/cli_runner.rs - Forge binary orchestration"
+    - "src/r_validator.rs - R process management & result parsing"
+    - "src/types.rs - Test specifications & results"
+    - "src/stats.rs - Tolerance & statistical comparison"
+  tests:
+    - "tests/analytics/monte_carlo.yaml - Monte Carlo distribution tests"
+    - "tests/analytics/bootstrap.yaml - Bootstrap confidence intervals"
+    - "tests/analytics/bayesian.yaml - Bayesian network inference"
+    - "tests/analytics/decision_trees.yaml - Decision tree valuation"
+    - "tests/analytics/real_options.yaml - Real options pricing"
+    - "tests/analytics/tornado.yaml - Tornado sensitivity analysis"
+    - "tests/analytics/sensitivity.yaml - 1D/2D sensitivity tables"
+    - "tests/analytics/scenarios.yaml - Scenario analysis"
+    - "tests/analytics/variance.yaml - Budget vs actual"
+    - "tests/analytics/breakeven.yaml - Breakeven analysis"
+  validators:
+    - "validators/r/monte_carlo_validator.R - Monte Carlo distributions"
+    - "validators/r/bootstrap_validator.R - Bootstrap resampling"
+    - "validators/r/bayesian_validator.R - Bayesian networks"
+    - "validators/r/decision_tree_validator.R - Decision trees"
+    - "validators/r/real_options_validator.R - Real options"
+    - "validators/r/tornado_validator.R - Tornado diagrams"
+    - "validators/r/sensitivity_validator.R - Sensitivity analysis"
+    - "validators/r/distribution_validator.R - Statistical distributions"
+    - "validators/r/financial_validator.R - Financial functions"
+    - "validators/r/math_validator.R - Math functions"
+    - "validators/r/date_validator.R - Date functions"
+  config:
+    - "Cargo.toml - Dependencies and metadata"
+  docs:
+    - "README.md - Project documentation"
+
+patterns:
+  - "Result<T, E> for errors, no panics"
+  - "thiserror for custom errors"
+  - "No unwrap() in library code"
+  - "Use clippy lints as errors"
+  - "YAML test specs → Forge → R comparison"
+  - "Statistical tolerance (not exact match)"
+
+dependencies:
+  runtime:
+    - "forge binary (FORGE_BIN env or ../forge/target/release/forge)"
+    - "R with Rscript in PATH"
+  r_packages:
+    - "jsonlite - JSON parsing"
+    - "boot - Bootstrap resampling"
+    - "mc2d - Monte Carlo distributions"
+    - "bnlearn - Bayesian networks (optional)"
+    - "data.tree - Decision trees (optional)"
+    - "derivmkts - Real options (optional)"
+
+tolerance:
+  mean: "1% relative difference"
+  std: "5% relative difference"
+  percentiles: "2% relative difference"
+  ks_test: "p > 0.05 (same distribution shape)"
+  reference: "ADR-010"
+
+release:
+  profile: |
+    [profile.release]
+    opt-level = 3
+    lto = true
+    codegen-units = 1
+    strip = true
+    panic = "abort"
+  compression: "UPX --best --lzma (optional)"
+
+coding_standards:
+  code:
+    file_size:
+      soft_limit: 1000
+      hard_limit: 1500
+      note: "lines per file - split if exceeding"
+    coverage: "100%"
+    linting: "clippy pedantic, zero warnings"
+    tests: "colocated with code (#[cfg(test)] mod tests)"
+    formatting: "rustfmt (cargo fmt)"
+  documentation:
+    linting: "markdownlint-cli2"
+    style:
+      - "ATX-style headers (#)"
+      - "One sentence per line (for git diffs)"
+  architecture:
+    decisions: "ADR format in docs/adr/"
+    diagrams: "Mermaid preferred (text-based, version controlled)"
+
+deliverables_template:
+  - "[ ] Unit tests pass"
+  - "[ ] R validation tests pass"
+  - "[ ] cargo clippy -- -D warnings (zero warnings)"
+  - "[ ] Update README if needed"
+  - "[ ] Update --help if CLI"
+  - "[ ] Commit and push"
+  - "[ ] GitHub release (if applicable)"

@@ -38,6 +38,7 @@ thiserror = "2.0"
 tempfile = "3.15"
 
 [dev-dependencies]
+cargo-husky = { version = "1", default-features = false, features = ["user-hooks"] }
 pretty_assertions = "1.4"
 
 [lints.rust]
