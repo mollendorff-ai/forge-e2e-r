@@ -1,6 +1,6 @@
 # forge-e2e-r
 
-R-validated E2E testing for [forge](https://github.com/royalbit/forge) analytics.
+R-validated E2E testing for [forge](https://github.com/mollendorff-ai/forge) analytics.
 
 ## Philosophy
 
@@ -9,7 +9,7 @@ R-validated E2E testing for [forge](https://github.com/royalbit/forge) analytics
 All tests validate forge against R, the gold-standard for statistical computing.
 If forge disagrees with R, forge has a bug.
 
-This is a child repository of [forge-e2e](https://github.com/royalbit/forge-e2e), the documentation hub that coordinates validation of forge against external reference implementations.
+This is a child repository of [forge-e2e](https://github.com/mollendorff-ai/forge-e2e), the documentation hub that coordinates validation of forge against external reference implementations.
 
 ## What It Tests
 
@@ -204,9 +204,9 @@ cargo fmt
 
 ## Related Projects
 
-- [forge](https://github.com/royalbit/forge) - Deterministic YAML financial modeling engine
-- [forge-e2e](https://github.com/royalbit/forge-e2e) - Documentation hub for E2E validation
-- [forge-e2e-gnumeric](https://github.com/royalbit/forge-e2e-gnumeric) - Excel formula validation
+- [forge](https://github.com/mollendorff-ai/forge) - Deterministic YAML financial modeling engine
+- [forge-e2e](https://github.com/mollendorff-ai/forge-e2e) - Documentation hub for E2E validation
+- [forge-e2e-gnumeric](https://github.com/mollendorff-ai/forge-e2e-gnumeric) - Excel formula validation
 
 ## License
 

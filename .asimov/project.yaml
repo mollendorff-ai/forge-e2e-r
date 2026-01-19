@@ -11,7 +11,7 @@ identity:
   version: "1.0.0"
   tagline: "R-validated E2E testing for forge analytics"
   parent: "forge-e2e"
-  repository: "https://github.com/royalbit/forge-e2e-r"
+  repository: "https://github.com/mollendorff-ai/forge-e2e-r"
 
 quality:
   test: "cargo test"

@@ -217,6 +217,6 @@ jobs:
 
 ## License
 
-Proprietary - RoyalBit Inc.
+Proprietary - Möllendorff Group Inc.
 
 Part of forge-e2e, the E2E validation suite for forge enterprise spreadsheet engine.

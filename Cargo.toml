@@ -1,10 +1,10 @@
 [package]
-name = "royalbit-forge-e2e-r"
+name = "mollendorff-forge-e2e-r"
 version = "1.0.0"
 edition = "2021"
-authors = ["RoyalBit Inc. <admin@royalbit.ca>"]
+authors = ["Möllendorff Group Inc. <admin@mollendorff.ai>"]
 description = "E2E validation of forge analytics against R"
-repository = "https://github.com/royalbit/forge-e2e-r"
+repository = "https://github.com/mollendorff-ai/forge-e2e-r"
 license = "Elastic-2.0"
 keywords = ["forge", "e2e", "testing", "r", "analytics"]
 categories = ["development-tools::testing"]
