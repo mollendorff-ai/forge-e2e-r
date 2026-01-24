@@ -24,6 +24,7 @@ completed:
   - version: "1.0.1"
     date: "2026-01-24"
     summary: "Rebrand RoyalBit to Möllendorff Group Inc."
+    note: "RoyalBit name hijacked by crypto scammers (UK FCA warning Oct 2024)"
   - version: "1.0.0"
     date: "2024-12-XX"
     summary: "Core R validation framework"
