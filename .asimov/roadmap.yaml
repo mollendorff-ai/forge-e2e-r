@@ -31,6 +31,7 @@ next:
       - "Test result artifacts"
 
 backlog:
+  - "Remove 'enterprise' tier labels from test YAML comments"
   - "Latin Hypercube sampling validation"
   - "Gaussian copula correlation tests"
   - "Convergence analysis automation"
