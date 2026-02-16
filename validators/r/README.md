@@ -217,6 +217,4 @@ jobs:
 
 ## License
 
-Proprietary - Möllendorff Group Inc.
-
-Part of forge-e2e, the E2E validation suite for forge enterprise spreadsheet engine.
+Dual-licensed under [MIT](../../LICENSE-MIT) or [Apache-2.0](../../LICENSE-APACHE), at your option.
