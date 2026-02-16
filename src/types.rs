@@ -72,14 +72,17 @@ pub enum TestResult {
 }
 
 impl TestResult {
+    #[must_use]
     pub const fn is_pass(&self) -> bool {
         matches!(self, Self::Pass { .. })
     }
 
+    #[must_use]
     pub const fn is_fail(&self) -> bool {
         matches!(self, Self::Fail { .. })
     }
 
+    #[must_use]
     pub fn name(&self) -> &str {
         match self {
             Self::Pass { name, .. }
@@ -103,6 +106,10 @@ pub struct AnalyticsTestFile {
 }
 
 /// Loads analytics test specs from a YAML file.
+///
+/// # Errors
+///
+/// Returns an error if the YAML content cannot be parsed.
 pub fn load_analytics_tests(content: &str) -> anyhow::Result<Vec<AnalyticsTestSpec>> {
     let file: AnalyticsTestFile = serde_yaml_ng::from_str(content)?;
     let mut tests = Vec::new();

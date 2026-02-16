@@ -37,6 +37,7 @@ impl Default for Tolerance {
 
 impl Tolerance {
     /// Creates tolerance for deterministic outputs (stricter).
+    #[must_use]
     pub const fn deterministic() -> Self {
         Self {
             mean: 0.001,
@@ -48,6 +49,7 @@ impl Tolerance {
     }
 
     /// Creates tolerance for stochastic outputs (looser).
+    #[must_use]
     pub fn stochastic() -> Self {
         Self::default()
     }
@@ -55,6 +57,7 @@ impl Tolerance {
 
 /// Checks if actual value is within tolerance of expected value.
 #[inline]
+#[must_use]
 pub fn within_tolerance(actual: f64, expected: f64, tolerance: f64) -> bool {
     if expected.abs() < f64::EPSILON {
         actual.abs() <= tolerance
@@ -66,6 +69,7 @@ pub fn within_tolerance(actual: f64, expected: f64, tolerance: f64) -> bool {
 
 /// Calculates relative difference between two values.
 #[inline]
+#[must_use]
 pub fn relative_difference(actual: f64, expected: f64) -> f64 {
     if expected.abs() < f64::EPSILON {
         actual.abs()
@@ -75,6 +79,7 @@ pub fn relative_difference(actual: f64, expected: f64) -> f64 {
 }
 
 /// Computes the Kolmogorov-Smirnov test statistic (D).
+#[must_use]
 pub fn ks_statistic(sample1: &[f64], sample2: &[f64]) -> f64 {
     if sample1.is_empty() || sample2.is_empty() {
         return 1.0;
@@ -120,6 +125,7 @@ pub fn ks_statistic(sample1: &[f64], sample2: &[f64]) -> f64 {
 }
 
 /// Computes approximate p-value for KS test.
+#[must_use]
 pub fn ks_pvalue(d: f64, n1: usize, n2: usize) -> f64 {
     if d <= 0.0 {
         return 1.0;
@@ -152,12 +158,14 @@ pub fn ks_pvalue(d: f64, n1: usize, n2: usize) -> f64 {
 }
 
 /// Computes the two-sample KS test p-value.
+#[must_use]
 pub fn ks_test_pvalue(sample1: &[f64], sample2: &[f64]) -> f64 {
     let d = ks_statistic(sample1, sample2);
     ks_pvalue(d, sample1.len(), sample2.len())
 }
 
 /// Computes basic statistics for a sample.
+#[must_use]
 pub fn compute_stats(sample: &[f64]) -> (f64, f64) {
     if sample.is_empty() {
         return (0.0, 0.0);

@@ -74,6 +74,7 @@ pub enum ValidationResult {
 }
 
 impl ValidationResult {
+    #[must_use]
     pub const fn is_pass(&self) -> bool {
         matches!(self, Self::Pass { .. })
     }
@@ -101,6 +102,10 @@ impl Default for RConfig {
 }
 
 /// Runs an R validator script with the given parameters.
+///
+/// # Errors
+///
+/// Returns an error if the R script cannot be found, fails to execute, or produces invalid JSON.
 pub fn validate_with_r(validator: &str, params: &RParams, config: &RConfig) -> Result<RResult> {
     let script_path = config.validators_dir.join(validator);
     if !script_path.exists() {
@@ -121,6 +126,7 @@ pub fn validate_with_r(validator: &str, params: &RParams, config: &RConfig) -> R
 }
 
 /// Compares forge output with R validation result.
+#[must_use]
 pub fn compare_results(
     forge: &AnalyticsOutput,
     r_result: &RResult,
@@ -318,6 +324,10 @@ fn parse_r_stats(results: Option<&serde_json::Value>) -> Option<Stats> {
 }
 
 /// Checks if R is available on the system.
+///
+/// # Errors
+///
+/// Returns an error if Rscript cannot be executed.
 pub fn check_r_available(config: &RConfig) -> Result<String> {
     let output = Command::new(&config.rscript_bin)
         .arg("--version")
@@ -333,6 +343,10 @@ pub fn check_r_available(config: &RConfig) -> Result<String> {
 }
 
 /// Checks if a required R package is installed.
+///
+/// # Errors
+///
+/// Returns an error if the package check command fails to execute.
 pub fn check_r_package(package: &str, config: &RConfig) -> Result<bool> {
     let script = format!("cat(requireNamespace('{package}', quietly=TRUE))");
 

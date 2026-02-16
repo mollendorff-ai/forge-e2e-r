@@ -69,6 +69,10 @@ impl Default for RunnerConfig {
 }
 
 /// Runs a forge CLI command and captures the output.
+///
+/// # Errors
+///
+/// Returns an error if the forge process fails to spawn or produces invalid JSON.
 pub fn run_forge_command(cmd: &ForgeCommand, config: &RunnerConfig) -> Result<AnalyticsOutput> {
     let mut command = Command::new(&config.forge_bin);
     command.arg(&cmd.cmd);
@@ -206,6 +210,10 @@ fn extract_stats(json: &serde_json::Value) -> Option<Stats> {
 }
 
 /// Checks if forge is available.
+///
+/// # Errors
+///
+/// Returns an error if forge cannot be executed or returns non-zero.
 pub fn check_forge_available(config: &RunnerConfig) -> Result<String> {
     let output = Command::new(&config.forge_bin)
         .arg("--version")
@@ -224,6 +232,7 @@ pub fn check_forge_available(config: &RunnerConfig) -> Result<String> {
 }
 
 /// Finds the forge binary.
+#[must_use]
 pub fn find_forge_binary() -> Option<PathBuf> {
     if let Ok(path) = std::env::var("FORGE_BIN") {
         let path = PathBuf::from(path);
