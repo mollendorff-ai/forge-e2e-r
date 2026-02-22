@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Rebranding: RoyalBit to Möllendorff Group Inc.**
+- **Rebranding: RoyalBit to Möllendorff AI**
   - Updated crate name from `royalbit-forge-e2e-r` to `mollendorff-forge-e2e-r`
   - **Why rebrand?** The "RoyalBit" name (company founded 2006) was hijacked by unrelated cryptocurrency scammers:
     - UK FCA issued official warning (Oct 2024) about "Royalbit Miners" - unauthorized firm
