@@ -1,3 +1,5 @@
+> **This repository is archived (2026-11-12).** The suite now lives in Forge's own repository, in [`validation/r`](https://github.com/mollendorff-ai/forge/tree/main/validation/r), with this repository's history ([ADR-057](https://github.com/mollendorff-ai/forge/blob/main/docs/architecture/ADR-057-VALIDATION-IN-THIS-REPOSITORY.md)). Changes go there.
+
 # forge-e2e-r
 
 R-validated E2E testing for [forge](https://github.com/mollendorff-ai/forge) analytics.
